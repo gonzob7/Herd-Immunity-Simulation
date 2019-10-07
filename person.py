@@ -27,6 +27,12 @@ class Person(object):
         '''
         # Only called if infection attribute is not None.
         # TODO:  Finish this method. Should return a Boolean
+        if infection == None:
+            ran_num = random.randint(0, mortality_rate*2)
+            if ran_num < mortality_rate:
+                return False
+            else:
+                return True
         pass
 
 
