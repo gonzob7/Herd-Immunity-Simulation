@@ -68,6 +68,8 @@ class Simulation(object):
 
         # Use the attributes created in the init method to create a population that has
         # the correct intial vaccination percentage and initial infected.
+        
+
         pass
 
     def _simulation_should_continue(self):

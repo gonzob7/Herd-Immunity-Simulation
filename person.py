@@ -14,9 +14,9 @@ class Person(object):
         should instantiate a Virus object and set it as the value
         self.infection. Otherwise, self.infection should be set to None.
         '''
-        self._id = None  # int
+        self._id = _id  # int
         self.is_alive = True  # boolean
-        self.is_vaccinated = None  # boolean
+        self.is_vaccinated = is_vaccinated  # boolean
         self.infection = None  # Virus object or None
 
     def did_survive_infection(self):
@@ -27,12 +27,12 @@ class Person(object):
         '''
         # Only called if infection attribute is not None.
         # TODO:  Finish this method. Should return a Boolean
-        if infection == None:
-            ran_num = random.randint(0, mortality_rate*2)
-            if ran_num < mortality_rate:
-                return False
-            else:
+        if self.infection != None:
+            ran_num = random.randint(0, 100)
+            if ran_num/10 >= self.infection.mortality_rate:
                 return True
+            else:
+                return False
         pass
 
 
@@ -45,6 +45,11 @@ def test_vacc_person_instantiation():
     assert person.is_vaccinated is True
     assert person.infection is None
 
+    person2 = Person(2, False)
+    assert person2._id == 2
+    assert person2.is_alive is True
+    assert person2.is_vaccinated is False
+    assert person2.infection is None
 
 def test_not_vacc_person_instantiation():
     person = Person(2, False)
