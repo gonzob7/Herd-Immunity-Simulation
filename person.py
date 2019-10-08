@@ -28,12 +28,16 @@ class Person(object):
         # Only called if infection attribute is not None.
         # TODO:  Finish this method. Should return a Boolean
         if self.infection != None:
-            ran_num = random.randint(0, 100)
-            if ran_num/10 >= self.infection.mortality_rate:
-                return True
-            else:
+            ran_chance = random.random()
+            if ran_chance <= self.infection.mortality_rate:
+                self.is_alive = False
                 return False
-        pass
+            else:
+                self.is_vaccinated = True
+                self.infection = None
+                return True
+        else:
+            return None
 
 
 ''' These are simple tests to ensure that you are instantiating your Person class correctly. '''
@@ -90,9 +94,10 @@ def test_did_survive_infection():
         # TODO: Write your own assert statements that test
         # the values of each attribute for a Person who survived
         # assert ...
+        assert person.is_vaccinated is True
     else:
         assert person.is_alive is False
         # TODO: Write your own assert statements that test
         # the values of each attribute for a Person who did not survive
         # assert ...
-        pass
+        assert person.is_vaccinated is True
