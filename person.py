@@ -78,6 +78,9 @@ def test_sick_person_instantiation():
     assert person.is_alive is True
     assert person.is_vaccinated is False
     assert person.infection is virus
+    assert person.infection.mortality_rate == 0.2
+    assert person.infection.name == "Dysentery"
+    assert person.infection.repro_rate == 0.7
 
 
 def test_did_survive_infection():
