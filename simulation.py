@@ -43,12 +43,15 @@ class Simulation(object):
         self.virus = virus # Virus object
         self.initial_infected = initial_infected # Int
         self.total_infected = 0 # Int
+        self.total_vaccinated = 0
         self.current_infected = 0 # Int
         self.vacc_percentage = vacc_percentage # float between 0 and 1
         self.total_dead = 0 # Int
         self.file_name = "{}_simulation_pop_{}_vp_{}_infected_{}.txt".format(
             virus_name, population_size, vacc_percentage, initial_infected)
         self.newly_infected = []
+        self.logger = Logger(self.file_name)
+        self.logger.write_metadata(self.pop_size, self.vacc_percentage, self.virus_name, self.mortality_rate, self.basic_repro_num)
 
     def _create_population(self, initial_infected):
         '''This method will create the initial population.
@@ -68,9 +71,16 @@ class Simulation(object):
 
         # Use the attributes created in the init method to create a population that has
         # the correct intial vaccination percentage and initial infected.
-        
+        pop = []
+        vacc_num = int(self.pop_size * self.vacc_percentage)
+        for person_index in self.pop_size:
+            if person_index < initial_infected:
+                pop.append(Person(person_index, True))
+                self.total_vaccinated += 1
+            else:
+                pop.append(Person(person_index, False))
 
-        pass
+        return pop
 
     def _simulation_should_continue(self):
         ''' The simulation should only end if the entire population is dead
@@ -80,7 +90,18 @@ class Simulation(object):
                 bool: True for simulation should continue, False if it should end.
         '''
         # TODO: Complete this helper method.  Returns a Boolean.
-        pass
+        infected_total = []
+        self.current_infected = 0
+        for person in self.population:
+            if person.infection != None and person.is_alive == True:
+                infected_total.append(person)
+                self.current_infected += 1
+
+        if len(infected_total == 0):
+            return False
+        else:
+            return True
+
 
     def run(self):
         ''' This method should run the simulation until all requirements for ending
@@ -94,13 +115,19 @@ class Simulation(object):
         # HINT: You may want to call the logger's log_time_step() method at the end of each time step.
         # TODO: Set this variable using a helper
         time_step_counter = 0
-        should_continue = None
+        should_continue = True
 
-        while should_continue:
         # TODO: for every iteration of this loop, call self.time_step() to compute another
         # round of this simulation.
+        while should_continue:
+            time_step_counter += 1
+            self.time_step()
+            should_continue = self._simulation_should_continue()
+            self.logger.log_time_step(time_step_counter)
+            
+
         print('The simulation has ended after {time_step_counter} turns.'.format(time_step_counter))
-        pass
+
 
     def time_step(self):
         ''' This method should contain all the logic for computing one time step
