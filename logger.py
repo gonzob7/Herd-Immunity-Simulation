@@ -46,11 +46,11 @@ class Logger(object):
 
         file = open(self.file_name, "a")
         if did_infect == True:
-            file.write(f"Person {person._id} infected {random_person._id}\n"
-        elif random_person_sick == True:
-            file.write(f"Person {person._id} cannot infect person {random_person._id} because they're already infected\n")
+            file.write(f"Person {person._id} infected {random_person._id}\n")
         elif random_person_vacc == True:
             file.write(f"Person {person._id} cannot infect person {random_person._id} because they're vaccinated\n")
+        elif random_person_sick == True:
+            file.write(f"Person {person._id} cannot infect person {random_person._id} because they're already infected\n")
         else:
             file.write(f"Person {person._id} cannot infect person {random_person._id}\n")
         file.close()
