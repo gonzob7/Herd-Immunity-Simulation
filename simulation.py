@@ -82,6 +82,16 @@ class Simulation(object):
 
         return pop
 
+    def get_infected(self):
+        infected_total = []
+        self.current_infected = 0
+        for person in self.population:
+            if person.infection != None and person.is_alive == True:
+                infected_total.append(person)
+                self.current_infected += 1
+
+        return infected_total
+
     def _simulation_should_continue(self):
         ''' The simulation should only end if the entire population is dead
         or everyone is vaccinated.
@@ -90,14 +100,8 @@ class Simulation(object):
                 bool: True for simulation should continue, False if it should end.
         '''
         # TODO: Complete this helper method.  Returns a Boolean.
-        infected_total = []
-        self.current_infected = 0
-        for person in self.population:
-            if person.infection != None and person.is_alive == True:
-                infected_total.append(person)
-                self.current_infected += 1
 
-        if len(infected_total == 0):
+        if len(self.get_infected() == 0):
             return False
         else:
             return True
@@ -124,7 +128,7 @@ class Simulation(object):
             self.time_step()
             should_continue = self._simulation_should_continue()
             self.logger.log_time_step(time_step_counter)
-            
+
 
         print('The simulation has ended after {time_step_counter} turns.'.format(time_step_counter))
 
