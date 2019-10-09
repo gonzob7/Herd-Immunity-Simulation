@@ -55,7 +55,7 @@ class Logger(object):
             file.write(f"Person {person._id} cannot infect person {random_person._id}\n")
         file.close()
 
-        
+
     def log_infection_survival(self, person, did_die_from_infection):
         ''' The Simulation object uses this method to log the results of every
         call of a Person object's .resolve_infection() method.
@@ -66,7 +66,12 @@ class Logger(object):
         # TODO: Finish this method. If the person survives, did_die_from_infection
         # should be False.  Otherwise, did_die_from_infection should be True.
         # Append the results of the infection to the logfile
-        pass
+        file = open(self.file_name, "a")
+        if did_die_from_infection == True:
+            file.write(f"Person {person._id} died from infection!\n")
+        else:
+            file.write(f"Person {person._id} survived infection!\n")
+        file.close()
 
     def log_time_step(self, time_step_number):
         ''' STRETCH CHALLENGE DETAILS:
@@ -86,4 +91,6 @@ class Logger(object):
         # TODO: Finish this method. This method should log when a time step ends, and a
         # new one begins.
         # NOTE: Here is an opportunity for a stretch challenge!
-        pass
+        file = open(self.file_name, "a")
+        file.write(f"Time step {time_step_number} ended, beginning {time_step_number + 1}\n")
+        file.close()
